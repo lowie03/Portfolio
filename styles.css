@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', 'sans-serif';
+}
+
+body{
+    background-color: #081b29;
+    color: #ededed;
+}
+
+header {
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 10%;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 25px;
+    color: #ededed;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.navbar a {
+    font-size: 18px;
+    color: #ededed;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 35px;
+    transition: .3s;
+}
+
+.navbar a:hover {
+    color: #00abf0;
+}
+
+.home {
+    height: 100vh;
+    background: url('Screenshot_17-7-2024_141659_www.freepik.com-removebg-preview.png') no-repeat;
+    background-position: 950px;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.home-content {
+    max-width: 600px;
+}
+
+.home-content h1 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.home-content h3 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #00abf0;
+}
+
+.home-content p {
+    font-size: 16px;
+    margin: 20px 0 40px;
+}
+
+.home-content .btn-box {
+    display: flex;
+    justify-content: space-between;
+    width: 345px;
+    height: 50px;
+}
+
+.btn-box a {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 100%;
+    background: #00abf0;
+    border: 2px solid #00abf0;
+    border-radius: 8px;
+    font-size: 19px;
+    color: #081b29;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: .5s;
+}
+
+.btn-box a:hover {
+    background-color: #fff;
+    width: 100%;
+}
+
+.resume a {
+    position: absolute;
+    font-size: 20px;
+    font-weight: 300;
+    /* background: #fff; */
+}
+
+.home-sci {
+    position: absolute;
+    bottom: 40px;
+    width: 170px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-sci a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid #00abf0;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #00abf0;
+    text-decoration: none;
+}
+
+
+
+/************** Services **********/
+.services {
+    padding: 100px 10%;
+    background-color: #081b29;
+    color: #ededed;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.services h2 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 40px;
+}
+
+.services-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.service-box {
+    background: #0d3a4f;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    text-align: left;
+}
+
+.service-box h3 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #00abf0;
+    margin-bottom: 20px;
+}
+
+.service-box p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.subs {
+    font-size: 30px;
+}
+
+.service-box i {
+    font-size: 24px;
+    color: #00abf0;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.call-to-action {
+    margin-top: 40px;
+}
+
+.call-to-action a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00abf0;
+    color: #081b29;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.call-to-action a:hover {
+    background-color: #007bb5;
+}
+
+/*************** Contact page *********/
+
+.contact {
+    padding: 100px 10%;
+    background-color: #081b29;
+    color: #ededed;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.contact p {
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+
+.contact-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.input-box input,
+.input-box textarea {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: 2px solid #00abf0;
+    border-radius: 5px;
+    color: #ededed;
+    font-size: 16px;
+    resize: none;
+}
+
+.input-box label {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    color: #00abf0;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.input-box input:focus ~ label,
+.input-box textarea:focus ~ label,
+.input-box input:valid ~ label,
+.input-box textarea:valid ~ label {
+    top: -20px;
+    left: 10px;
+    color: #00abf0;
+    font-size: 12px;
+}
+
+textarea {
+    height: 150px;
+}
+
+.contact .btn-box {
+    display: flex;
+    justify-content: center;
+}
+
+.contact .btn-box button {
+    width: 150px;
+    height: 50px;
+    background: #00abf0;
+    border: none;
+    border-radius: 8px;
+    border: 2px solid #00abf0;
+    color: #081b29;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.contact .btn-box button:hover {
+    background: #fff;
+    width: 30%;
+}
+
