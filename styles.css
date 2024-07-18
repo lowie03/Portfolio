@@ -55,25 +55,7 @@ header {
     padding: 0 10%;
 }
 
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    /* background: rgba(0, 0, 0, 0.5); Adjust the opacity here */
-    z-index: 1;
-}
-
-.overlay:hover{
-    opacity: 1.0;
-    color: #081b29;
-    background: rgba(0, 0, 0, 0.5);
-}
-
 .home-content {
-    position: relative;
-    z-index: 2;
     max-width: 600px;
 }
 
@@ -120,7 +102,7 @@ header {
 }
 
 .btn-box a:hover {
-    background-color: #fff;
+    background-color: #007bb5;
     width: 100%;
 }
 
@@ -328,9 +310,8 @@ textarea {
     }
 
     .home-content {
-        max-width: 80%;
+        max-width: 100%;
         text-align: center;
-        margin-left: 60px;
     }
 
     .home-content h1 {
