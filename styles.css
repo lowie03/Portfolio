@@ -303,3 +303,76 @@ textarea {
     width: 30%;
 }
 
+/* Media Queries for responsive design */
+@media (max-width: 1024px) {
+    .services-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .service-box {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 20px 5%;
+    }
+
+    .navbar a {
+        margin-left: 15px;
+    }
+
+    .services {
+        padding: 80px 5%;
+    }
+
+    .services h2 {
+        font-size: 40px;
+    }
+
+    .service-box h3 {
+        font-size: 28px;
+    }
+
+    .subs {
+        font-size: 16px;
+    }
+
+    .service-box p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 20px;
+    }
+
+    .navbar a {
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .services h2 {
+        font-size: 32px;
+    }
+
+    .service-box h3 {
+        font-size: 24px;
+    }
+
+    .subs {
+        font-size: 14px;
+    }
+
+    .service-box p {
+        font-size: 12px;
+    }
+
+    .call-to-action a {
+        font-size: 16px;
+    }
+}
