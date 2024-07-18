@@ -55,7 +55,25 @@ header {
     padding: 0 10%;
 }
 
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* background: rgba(0, 0, 0, 0.5); Adjust the opacity here */
+    z-index: 1;
+}
+
+.overlay:hover{
+    opacity: 1.0;
+    color: #081b29;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 .home-content {
+    position: relative;
+    z-index: 2;
     max-width: 600px;
 }
 
@@ -305,6 +323,44 @@ textarea {
 
 /* Media Queries for responsive design */
 @media (max-width: 1024px) {
+    .home {
+        background-position: center;
+    }
+
+    .home-content {
+        max-width: 80%;
+        text-align: center;
+        margin-left: 60px;
+    }
+
+    .home-content h1 {
+        font-size: 48px;
+    }
+
+    .home-content h3 {
+        font-size: 28px;
+    }
+
+    .home-content p {
+        font-size: 14px;
+    }
+
+    .btn-box {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-box a {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .home-sci {
+        bottom: 20px;
+        width: 100%;
+        justify-content: space-around;
+    }
+
     .services-content {
         flex-direction: column;
         align-items: center;
@@ -323,6 +379,42 @@ textarea {
 
     .navbar a {
         margin-left: 15px;
+    }
+
+    .home {
+        padding: 0 5%;
+    }
+
+    .home-content h1 {
+        font-size: 40px;
+    }
+
+    .home-content h3 {
+        font-size: 24px;
+    }
+
+    .home-content p {
+        font-size: 14px;
+    }
+
+    .btn-box a {
+        font-size: 16px;
+    }
+
+    .resume a {
+        font-size: 18px;
+    }
+
+    .home-sci {
+        bottom: 15px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .home-sci a {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
     }
 
     .services {
@@ -354,6 +446,42 @@ textarea {
     .navbar a {
         font-size: 16px;
         margin-left: 10px;
+    }
+
+    .home {
+        padding: 0 2%;
+    }
+
+    .home-content h1 {
+        font-size: 32px;
+    }
+
+    .home-content h3 {
+        font-size: 20px;
+    }
+
+    .home-content p {
+        font-size: 12px;
+    }
+
+    .btn-box a {
+        font-size: 14px;
+    }
+
+    .resume a {
+        font-size: 16px;
+    }
+
+    .home-sci {
+        bottom: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .home-sci a {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
     }
 
     .services h2 {
