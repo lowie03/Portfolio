@@ -106,10 +106,14 @@ header {
     width: 100%;
 }
 
-.resume a {
+.resume {
     position: absolute;
     font-size: 20px;
     font-weight: 300;
+    margin: 10px 0;
+    /* letter-spacing: 1px; */
+    text-decoration: none;
+    color: #fff;
     /* background: #fff; */
 }
 
