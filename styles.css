@@ -48,7 +48,7 @@ header {
 
 .home {
     height: 100vh;
-    background: url('Screenshot_17-7-2024_141659_www.freepik.com-removebg-preview.png') no-repeat;
+    background: url('images/Screenshot_17-7-2024_141659_www.freepik.com-removebg-preview.png') no-repeat;
     background-position: 950px;
     display: flex;
     align-items: center;
@@ -308,7 +308,7 @@ textarea {
 }
 
 /* Media Queries for responsive design */
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
     .home {
         background-position: center;
     }
@@ -355,9 +355,9 @@ textarea {
         width: 100%;
         margin-bottom: 20px;
     }
-}
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     header {
         padding: 20px 5%;
     }
@@ -421,9 +421,9 @@ textarea {
     .service-box p {
         font-size: 14px;
     }
-}
+} */
 
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
     .logo {
         font-size: 20px;
     }
@@ -487,5 +487,72 @@ textarea {
 
     .call-to-action a {
         font-size: 16px;
+    }
+} */
+
+
+@media screen and (max-width: 680px){
+    .home {
+        background-position: center;
+    }
+
+    .home-content {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .home-content h1 {
+        font-size: 48px;
+    }
+
+    .home-content h3 {
+        font-size: 28px;
+    }
+
+    .home-content p {
+        font-size: 14px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .resume {
+        font-size: 20px;
+        display: block;
+    }
+
+    .home-content::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url(images/Screenshot_17-7-2024_141659_www.freepik.com-removebg-preview.png) no-repeat;
+        opacity: 0.5;
+        z-index: 2;
+    }
+
+    .btn-box {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-box a {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .home-sci {
+        bottom: 20px;
+        width: 25%;
+        /* justify-content: space-around; */
+    }
+
+    .services-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .service-box {
+        width: 100%;
+        margin-bottom: 20px;
     }
 }
