@@ -136,7 +136,7 @@ export default function Home() {
           </a>
         </div>
         <p className="mt-16 border-t border-line pt-6 font-mono text-xs text-muted">
-          © {new Date().getFullYear()} Godwin Praise · Built with Next.js
+          © {new Date().getFullYear()} Godwin Praise
         </p>
       </section>
     </main>
