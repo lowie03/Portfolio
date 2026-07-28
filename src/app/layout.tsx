@@ -25,6 +25,7 @@ export const metadata: Metadata = {
 };
 
 import Nav from "@/components/Nav";
+import ThemeProvider from "@/components/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -32,12 +33,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geist.variable} ${geistMono.variable} ${grotesk.variable} antialiased`}
       >
-        <Nav />
-        {children}
+        <ThemeProvider>
+          <Nav />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

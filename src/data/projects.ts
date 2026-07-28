@@ -24,6 +24,7 @@ export const projects: Project[] = [
     ],
     stack: ["PyTorch", "EfficientNet-B0", "FastAPI", "React", "Docker"],
     github: "https://github.com/lowie03/plant-disease-detector",
+    demo: "https://plant-disease-detector-q4nnvoiyk-praises-projects-e37ae29d.vercel.app/",
     images: [
       { src: "/projects/plant-disease-1.png", alt: "Plant Disease Detector" },
     ]
@@ -55,6 +56,7 @@ export const projects: Project[] = [
     ],
     stack: ["InterpretML", "Flask", "scikit-learn", "React"],
     github: "https://github.com/lowie03/Academic_predictor_backend",
+    demo: "https://academic-predictor-frontend.vercel.app/",
   },
   {
     slug: "cervical-cancer-triage",

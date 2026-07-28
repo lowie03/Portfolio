@@ -9,10 +9,12 @@ export default function ProjectCard({
   index: number;
 }) {
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      className="group relative overflow-hidden block border-t border-line px-4 mx-4 py-10 rounded-xl transition-colors hover:bg-surface"
-    >
+    <div className="group relative overflow-hidden border-t border-line px-4 mx-4 py-10 rounded-xl transition-colors hover:bg-surface">
+      <Link
+        href={`/work/${project.slug}`}
+        className="absolute inset-0"
+        aria-label={project.title}
+      />
       <span
         aria-hidden
         className="pointer-events-none absolute inset-y-0 left-0 w-px bg-accent/60 opacity-0 transition-all duration-700 ease-out group-hover:left-full group-hover:opacity-100"
@@ -39,6 +41,22 @@ export default function ProjectCard({
           </span>
         ))}
       </div>
-    </Link>
+      {project.demo ? (
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noreferrer"
+          className="relative z-10 mt-5 inline-flex items-center gap-2 rounded-full border border-accent px-3 py-1 font-mono text-xs text-accent hover:bg-accent hover:text-paper transition-colors"
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+          Live — view the app ↗
+        </a>
+      ) : (
+        <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 font-mono text-xs text-muted">
+          <span className="h-1.5 w-1.5 rounded-full bg-muted" />
+          No public UI yet
+        </span>
+      )}
+    </div>
   );
 }

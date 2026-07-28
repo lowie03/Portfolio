@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
   { href: "/#work", label: "Work" },
@@ -20,6 +21,14 @@ export default function Nav() {
             </Link>
           ))}
           <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="text-muted hover:text-ink transition-colors"
+          >
+            Resume
+          </a>
+          <a
             href="https://github.com/lowie03"
             target="_blank"
             rel="noreferrer"
@@ -27,6 +36,7 @@ export default function Nav() {
           >
             GitHub
           </a>
+          <ThemeToggle />
         </div>
       </nav>
     </header>

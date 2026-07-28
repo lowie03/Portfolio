@@ -111,6 +111,14 @@ export default function Home() {
             Email me
           </a>
           <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-line px-6 py-3 font-mono text-xs uppercase tracking-widest hover:border-ink transition-colors"
+          >
+            View resume
+          </a>
+          <a
             href="https://github.com/lowie03"
             target="_blank"
             rel="noreferrer"

@@ -13,6 +13,17 @@
   --font-mono: var(--font-mono);
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+.dark {
+  --color-paper: #101216;
+  --color-ink: #e8eaed;
+  --color-muted: #9aa1ab;
+  --color-line: #262a31;
+  --color-surface: #181c22;
+  --color-accent: #2dd4bf; /* brighter teal — dark backgrounds eat saturation */
+}
+
 body {
   background: var(--color-paper);
   color: var(--color-ink);
