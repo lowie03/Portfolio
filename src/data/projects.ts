@@ -32,16 +32,17 @@ export const projects: Project[] = [
   {
     slug: "pneumonia-detection",
     title: "Pneumonia Detection",
-    tags: ["Medical Imaging", "Explainable AI"],
+    tags: ["Medical Imaging", "Clinical ML"],
     description:
-      "Chest X-ray screening tuned for clinical safety — sensitivity prioritized over raw accuracy, with Grad-CAM heatmaps showing which lung regions drove each prediction.",
+      "Chest X-ray screening tuned for clinical safety — a class-weighted EfficientNet-B0 runs at a calibrated threshold that pushes sensitivity to 99%, and the API discloses its own validation-to-test specificity gap instead of hiding it.",
     metrics: [
-      { label: "AUC", value: "0.92" },
-      { label: "Sensitivity", value: "86%" },
-      { label: "Explainability", value: "Grad-CAM" },
+      { label: "AUC", value: "0.95" },
+      { label: "Sensitivity", value: "99%" },
+      { label: "Specificity", value: "70%" },
     ],
-    stack: ["PyTorch", "EfficientNet-B0", "Grad-CAM", "FastAPI"],
+    stack: ["PyTorch", "EfficientNet-B0", "FastAPI"],
     github: "https://github.com/lowie03/Chest-xray",
+    demo: "https://frontend-bay-phi-56.vercel.app/",
   },
   {
     slug: "academic-outcome-predictor",
