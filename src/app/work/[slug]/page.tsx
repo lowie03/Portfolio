@@ -5,6 +5,7 @@ import { projects } from "@/data/projects";
 import CountUp from "@/components/CountUp";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
+import BrowserFrame from "@/components/BrowserFrame";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -37,7 +38,7 @@ export default async function ProjectPage({
   return (
     <main className="mx-auto max-w-4xl px-6 py-20">
       <Link
-        href="/#work"
+        href="/work"
         className="font-mono text-xs uppercase tracking-widest text-muted hover:text-ink transition-colors"
       >
         ← All work
@@ -64,30 +65,20 @@ export default async function ProjectPage({
         ))}
       </div>
 
-      {project.images && (
-        <div
-          className={
-            project.images.length === 1
-              ? "mt-12 max-w-2xl"
-              : "mt-12 grid gap-6 md:grid-cols-2"
-          }
-        >
-          {project.images.map((img, i) => (
-            <Reveal key={img.src} delay={i * 0.1}>
-              <div className="group overflow-hidden rounded-xl border border-line bg-line p-3 shadow-sm">
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg border border-line bg-line shadow-[inset_0_1px_4px_rgba(22,24,29,0.08)]">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    loading={i === 0 ? "eager" : "lazy"}
-                    className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  />
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+      {project.image && (
+        <Reveal delay={0.1}>
+          <div className="mt-12 max-w-2xl group">
+            <BrowserFrame demo={project.demo}>
+              <Image
+                src={project.image.src}
+                alt={project.image.alt}
+                fill
+                loading="eager"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              />
+            </BrowserFrame>
+          </div>
+        </Reveal>
       )}
 
       <section className="mt-12">

@@ -1,27 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #fafaf7;   /* warm off-white background */
-  --color-ink: #16181d;     /* near-black text */
-  --color-muted: #6b7280;   /* secondary text */
-  --color-line: #e5e4df;    /* hairline borders */
-  --color-accent: #0d9488;  /* teal — clinical + botanical */
-  --color-surface: #f1f0ea;  /* slightly deeper warm tone for hover states */
+  --color-paper: #faf9f5;   /* main page background */
+  --color-ink: #2b2013;     /* deep ink brown — primary text */
+  --color-muted: #6b5a44;   /* muted warm brown — secondary text */
+  --color-line: #c2b092;    /* warm mid-tone — reads clearly against paper */
+  --color-accent: #2f4a3c;  /* forest green */
+  --color-surface: #f0ede4; /* one step deeper than paper — hover states */
+
+  /* Homepage showcase panel backgrounds — one per project, ordered so light
+     and dark alternate: sage (light) -> navy (dark) -> cream (light) ->
+     slate (dark). Each is paired with its OWN foreground — panels don't
+     share the global --color-ink/--color-muted, since a fixed medium-brown
+     "muted" text would fail contrast against the dark panels. Verified
+     contrast against paired foreground: sage ~8.5:1, navy ~15.4:1, cream
+     ~13.3:1, slate ~12.3:1 — all clear WCAG AA. Must be referenced via a
+     literal Tailwind class (see PANEL_CLASSES in Showcase.tsx), not a
+     template-string var() — Tailwind v4 tree-shakes any --color-* variable
+     that never appears in a scanned utility class name. */
+  --color-panel-sage: #c3c093;   /* Plant Disease Detector — pale mint UI */
+  --color-panel-sage-fg: #2b2013;
+  --color-panel-navy: #0f141c;   /* Pneumonia Detection — near-black navy UI */
+  --color-panel-navy-fg: #f6ead2;
+  --color-panel-cream: #edebdd;  /* Corper Desk — cream UI */
+  --color-panel-cream-fg: #2b2013;
+  --color-panel-slate: #1e283b;  /* Academic Outcome Predictor — dark slate UI */
+  --color-panel-slate-fg: #f6ead2;
+
+  /* Browser-frame chrome per panel — one step DARKER than the panel on the
+     light panels (sage, cream), one step LIGHTER on the dark panels (navy,
+     slate), so the frame always reads as a subtle raised surface instead of
+     vanishing into a light panel or glaring against a dark one. Verified
+     contrast against paired chrome-fg: sage ~6.8:1, navy ~11.6:1, cream
+     ~11.4:1, slate ~9.2:1 — all clear WCAG AA. */
+  --color-panel-sage-chrome: #b0ac82;
+  --color-panel-sage-chrome-fg: #2b2013;
+  --color-panel-navy-chrome: #242a33;
+  --color-panel-navy-chrome-fg: #f6ead2;
+  --color-panel-cream-chrome: #dad8c2;
+  --color-panel-cream-chrome-fg: #2b2013;
+  --color-panel-slate-chrome: #313b4e;
+  --color-panel-slate-chrome-fg: #f6ead2;
 
   --font-body: var(--font-body);
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);
-}
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-.dark {
-  --color-paper: #101216;
-  --color-ink: #e8eaed;
-  --color-muted: #9aa1ab;
-  --color-line: #262a31;
-  --color-surface: #181c22;
-  --color-accent: #2dd4bf; /* brighter teal — dark backgrounds eat saturation */
 }
 
 body {

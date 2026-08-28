@@ -1,12 +1,12 @@
 import { projects } from "@/data/projects";
-import ProjectCard from "@/components/ProjectCard";
-import Reveal from "@/components/Reveal";
 import AnimatedHeadline from "@/components/AnimatedHeadline";
+import Showcase from "@/components/Showcase";
+import MaskedLine from "@/components/MaskedLine";
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-5xl px-6">
-      <section className="py-28">
+    <main>
+      <section className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-6">
         <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent">
           <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
           Available for new work · Nigeria (WAT)
@@ -27,52 +27,52 @@ export default function Home() {
             href="mailto:praiseg203@gmail.com"
             className="rounded-full border border-line px-6 py-3 font-mono text-xs uppercase tracking-widest hover:border-ink transition-colors"
           >
-            Contact me
+            Let's talk
           </a>
         </div>
       </section>
-      <section id="work" className="py-16">
-        <p className="font-mono text-xs uppercase tracking-widest text-muted">
-          Selected work
-        </p>
-        <div className="mt-6">
-          {projects.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.06}>
-              <ProjectCard project={p} index={i} />
-            </Reveal>
-          ))}
-        </div>
-      </section>
-      <section id="about" className="border-t border-line py-24">
+
+      <Showcase projects={projects} />
+
+      <section
+        id="about"
+        className="mx-auto max-w-5xl border-t border-line px-6 py-24"
+      >
         <p className="font-mono text-xs uppercase tracking-widest text-muted">
           About
         </p>
         <div className="mt-6 grid gap-10 md:grid-cols-3">
           <div className="md:col-span-2">
-            <p className="text-lg leading-relaxed">
-              I&apos;ve always enjoyed figuring out how things work. That
-              curiosity is what pulled me into machine learning, and before
-              long, I found myself asking bigger questions, not just can I build
-              a model that works? but can I build one that people can actually
-              rely on?
-            </p>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              That question shapes the way I approach every project. I enjoy
-              taking ideas from the first dataset all the way to a working
-              product, whether that means training machine learning models,
-              building computer vision systems, developing LLM and RAG
-              applications, deploying APIs, or designing the interface people
-              interact with. For me, the exciting part isn&apos;t just the
-              model, it&apos;s bringing every piece together into something
-              useful.
-            </p>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              I&apos;m especially drawn to problems where AI can create real
-              impact. I want to build intelligent systems that are practical,
-              trustworthy, and genuinely improve people&apos;s lives. Every
-              project teaches me something new, and that&apos;s what keeps me
-              building.
-            </p>
+            <MaskedLine>
+              <p className="text-lg leading-relaxed">
+                I&apos;ve always enjoyed figuring out how things work. That
+                curiosity is what pulled me into machine learning, and before
+                long, I found myself asking bigger questions, not just can I
+                build a model that works? but can I build one that people can
+                actually rely on?
+              </p>
+            </MaskedLine>
+            <MaskedLine delay={0.12}>
+              <p className="mt-4 text-lg leading-relaxed text-muted">
+                That question shapes the way I approach every project. I enjoy
+                taking ideas from the first dataset all the way to a working
+                product, whether that means training machine learning models,
+                building computer vision systems, developing LLM and RAG
+                applications, deploying APIs, or designing the interface people
+                interact with. For me, the exciting part isn&apos;t just the
+                model, it&apos;s bringing every piece together into something
+                useful.
+              </p>
+            </MaskedLine>
+            <MaskedLine delay={0.24}>
+              <p className="mt-4 text-lg leading-relaxed text-muted">
+                I&apos;m especially drawn to problems where AI can create real
+                impact. I want to build intelligent systems that are practical,
+                trustworthy, and genuinely improve people&apos;s lives. Every
+                project teaches me something new, and that&apos;s what keeps me
+                building.
+              </p>
+            </MaskedLine>
           </div>
           <div className="font-mono text-sm md:sticky md:top-24 md:self-start">
             <p className="text-xs uppercase tracking-widest text-muted">
@@ -96,19 +96,23 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="border-t border-line py-24">
+      <section
+        id="contact"
+        className="mx-auto max-w-5xl border-t border-line px-6 py-24"
+      >
         <p className="font-mono text-xs uppercase tracking-widest text-muted">
-          Contact
+          Let's talk
         </p>
         <h2 className="mt-6 max-w-2xl font-display text-4xl font-semibold leading-tight">
-          Open to internships, junior roles, and interesting ML problems.
+          Whether it’s a project, collaboration, or an opportunity to build
+          something great, I’d love to hear from you.
         </h2>
         <div className="mt-8 flex flex-wrap gap-4">
           <a
             href="mailto:praiseg203@gmail.com"
             className="rounded-full bg-ink px-6 py-3 font-mono text-xs uppercase tracking-widest text-paper hover:bg-accent transition-colors"
           >
-            Email me
+            Email
           </a>
           <a
             href="/resume.pdf"

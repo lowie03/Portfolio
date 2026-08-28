@@ -3,10 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import ThemeToggle from "@/components/ThemeToggle";
 
 const links = [
-  { href: "/#work", label: "Work" },
+  { href: "/work", label: "Work" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
 ];
@@ -51,11 +50,9 @@ export default function Nav() {
           >
             GitHub
           </a>
-          <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-4 md:hidden">
-          <ThemeToggle />
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
