@@ -74,6 +74,7 @@ export default async function ProjectPage({
                 alt={project.image.alt}
                 fill
                 loading="eager"
+                sizes="(min-width: 700px) 672px, 100vw"
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               />
             </BrowserFrame>
