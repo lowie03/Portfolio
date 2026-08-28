@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import type { Project } from "@/data/projects";
 import ShowcaseFrame from "@/components/ShowcaseFrame";
@@ -101,6 +102,32 @@ const SHOWCASE_ORDER = [
  * from off-screen to locked visibly sliding up and covering it — the
  * intended motion, just no longer starting while panel i is still meant to
  * be read.
+ *
+ * The last panel is the one exception to `PANEL_H_VH`: it uses a plain
+ * `100vh` instead. Every other panel's `EXTRA_DWELL_VH` of extra box height
+ * is never actually seen as scrolled space, because those panels never
+ * structurally release — they stay sticky-stuck (just painted over) for the
+ * rest of the page. The last panel is the only one that genuinely DOES
+ * release and scroll away for real once its dwell ends. If its own box were
+ * still `PANEL_H_VH` tall, that extra `EXTRA_DWELL_VH` would reappear as a
+ * real, visible blank tail scrolling past AFTER its content — the same
+ * dead-space bug relocated from before release to after it. Sizing it to
+ * exactly what its content needs removes that tail.
+ *
+ * That content height (100vh) is deliberately DIFFERENT from every other
+ * panel's own box height (`PANEL_H_VH`) — which would break synchronized
+ * release if left as-is, because a sticky element's release point, once its
+ * containing block's remaining room runs out, tracks at `(containing block's
+ * bottom on screen) − (its own height)`. Panels sharing one containing block
+ * with the SAME height release in lockstep (same formula, same result); a
+ * DIFFERENT height offsets that result by the height difference, so the
+ * last panel would start actually moving `EXTRA_DWELL_VH` of scroll later
+ * than 1–3 — visually, the tab row coming apart as 1–3 (still counted as
+ * released internally, just invisible under the last panel) drag away while
+ * the last panel's own, differently-sized box lags behind. The last panel's
+ * OWN wrapper div below exists to fix exactly this: it gives the release
+ * calculation the same `PANEL_H_VH` that panels 1–3 use, without making the
+ * visible, painted panel itself any taller than its content.
  */
 function Panel({
   project,
@@ -111,6 +138,7 @@ function Panel({
   index: number;
   total: number;
 }) {
+  const isLast = index === total - 1;
   const number = String(index + 1).padStart(2, "0");
   const slot = 100 / total; // this panel's horizontal share, in vw
   const left = index * slot;
@@ -123,16 +151,24 @@ function Panel({
   // hit-testing (elementsFromPoint) turned out to disagree with the actual
   // painted shape when the polygon mixed vw with px/%; expressing everything
   // relative to the element's own box removed that mismatch. Vertically,
-  // "100%" still means the bottom of the panel's own (now taller) box —
-  // that's fine, since nothing below the first viewport-height of it is
-  // ever visible anyway.
+  // the bottom edge is pinned to a literal `100vh` — the panel's own
+  // CONTENT height — rather than `100%` of the box (which for panels 1-3
+  // is the taller `PANEL_H_VH`). The box still needs that extra height to
+  // delay the next panel's rise (see the comment on Panel), but nothing
+  // should ever actually be PAINTED past the content itself: once these
+  // panels finally release, at the very end, a polygon that painted the
+  // full `PANEL_H_VH` would keep this panel's own background visible
+  // `EXTRA_DWELL_VH` past where its content ends — exposing whichever
+  // panel's color happens to be there once it's no longer safely hidden
+  // under a later one. Stopping the paint at `100vh` means there is
+  // nothing to expose: past the content, this panel simply isn't drawn.
   const clipPath = [
     `${left + 0.1 * slot}% 0`,
     `${left + 0.9 * slot}% 0`,
     `${right}% ${TAB_H}px`,
     `100% ${TAB_H}px`,
-    `100% 100%`,
-    `0 100%`,
+    `100% 100vh`,
+    `0 100vh`,
     `0 ${TAB_H}px`,
     `${left}% ${TAB_H}px`,
   ].join(", ");
@@ -141,7 +177,11 @@ function Panel({
     <section
       aria-label={project.title}
       className={`sticky w-full overflow-hidden ${PANEL_CLASSES[project.panelColor ?? ""] ?? ""}`}
-      style={{ top: STICKY_TOP, height: `${PANEL_H_VH}vh`, clipPath: `polygon(${clipPath})` }}
+      style={{
+        top: STICKY_TOP,
+        height: isLast ? "100vh" : `${PANEL_H_VH}vh`,
+        clipPath: `polygon(${clipPath})`,
+      }}
     >
       <div
         className="absolute top-0 flex items-center justify-center"
@@ -210,34 +250,79 @@ export default function Showcase({ projects }: { projects: Project[] }) {
   return (
     <>
       <section id="work" aria-label="Selected work">
-        {items.map((project, i) => (
-          <Panel
-            key={project.slug}
-            project={project}
-            index={i}
-            total={items.length}
-          />
-        ))}
+        {items.map((project, i) => {
+          const panel = (
+            <Panel project={project} index={i} total={items.length} />
+          );
+          if (i !== items.length - 1) {
+            // Panels 1..N-1: no wrapper, unchanged — they release relative
+            // to this shared <section> directly, exactly as before.
+            return <Fragment key={project.slug}>{panel}</Fragment>;
+          }
+          // The last panel only: a plain div with no color, no position, no
+          // transform — just `PANEL_H_VH` of flow height — standing in as
+          // ITS sticky containing block instead of the shared <section>
+          // above. That gives its release calculation the same effective
+          // height as panels 1-3 (see the comment on Panel for why that
+          // match matters), while the <section> INSIDE it stays sized to
+          // its own content (100vh), so nothing taller than its content is
+          // ever actually painted. This div is never visible on its own:
+          // the sticky panel inside remains opaque and pinned for the
+          // div's entire extra height, so its transparent background never
+          // shows through.
+          return (
+            <div key={project.slug} style={{ height: `${PANEL_H_VH}vh` }}>
+              {panel}
+            </div>
+          );
+        })}
         {/* All panels share one containing block (this <section>) for their
             sticky release calculation, since they're plain contiguous
-            siblings with no per-panel wrapper. That's harmless for panels
-            1..N-1 — the next panel already covers them before the shared
-            release threshold would ever matter — but it means the LAST panel
-            would lock and immediately start releasing at the very same
-            scroll position, giving it zero dwell time. This spacer (same
-            height as one panel, including its extra dwell) exists purely to
-            extend that shared containing block, so the last panel gets the
-            same dwell as every other one. It renders nothing and is never
-            meant to be "covered". */}
-        <div style={{ height: `${PANEL_H_VH}vh` }} aria-hidden />
+            siblings with no per-panel wrapper (except the last, see above)
+            — a sticky element's stuck DURATION is governed by how much flow
+            space follows it inside its containing block, not by its own
+            height. Without any trailing space at all, the last panel would
+            lock and release in the same instant, with zero dwell.
+            Panels 1..N-1 get their trailing space "for free": the next
+            panel's own `PANEL_H_VH` of flow height follows immediately, and
+            visually, most of that space isn't dead time at all — it's the
+            next panel sliding up and covering this one, which is motion,
+            not a pause. The last panel's wrapper div gives it the same
+            `PANEL_H_VH` of containing-block room for the release math to
+            match — but that's release-SYNCHRONIZATION math, not dwell time;
+            the last panel would still lock and release in the same instant
+            without any space after ITS wrapper too. This spacer is what
+            actually gives it a dwell, sized to `EXTRA_DWELL_VH` (the same
+            "pure, nothing-else-happening" reading window every panel gets
+            before its handoff begins) rather than a full extra panel-height,
+            since there's no next panel here to turn a longer runway into a
+            cover animation — it would just be more static dead time. */}
+        <div style={{ height: `${EXTRA_DWELL_VH}vh` }} aria-hidden />
       </section>
 
       {/* A plain, quiet close to the showcase — deliberately NOT a panel:
           no tab, no panel color, no sticky positioning, not full-screen.
           Just page background and a centered link, giving the section a
           clean ending before About begins instead of competing with the
-          last panel's own "View project" link. */}
-      <section className="flex items-center justify-center py-16">
+          last panel's own "View project" link.
+
+          `marginTop: -EXTRA_DWELL_VH` pulls this up to meet where the
+          panels actually stop being PAINTED, not where their (taller,
+          `PANEL_H_VH`) LAYOUT boxes end. Every panel's sticky release is
+          still governed by its own full layout height — that's what keeps
+          all four synchronized — but the clip-path only paints the first
+          100vh of that box (see the comment on Panel's clipPath). Without
+          this margin, this section simply follows the layout height, which
+          is `EXTRA_DWELL_VH` taller than the last painted pixel, leaving
+          that difference as a bare gap of page background. This margin is
+          the fixed, constant compensation for that gap — the gap's size
+          doesn't depend on the spacer above (both sides of that equation
+          contain it, so it cancels out), only on the layout/paint height
+          difference itself. */}
+      <section
+        className="flex items-center justify-center py-16"
+        style={{ marginTop: `-${EXTRA_DWELL_VH}vh` }}
+      >
         <Link
           href="/work"
           className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink underline underline-offset-4 transition-colors hover:text-accent"
