@@ -8,6 +8,11 @@ export type Project = {
   github: string;
   demo?: string;
   image?: { src: string; alt: string };
+  /** Optional second capture for the homepage showcase's crossfade (e.g. an
+   *  empty state -> completed result). Purely additive — a project with no
+   *  image2 just renders its single image normally, no other code changes
+   *  needed to add one later. */
+  image2?: { src: string; alt: string };
   /** Homepage-showcase-only background, naming a --color-panel-<n> token in globals.css. */
   panelColor?: string;
   /** Homepage-showcase-only one-liner — short enough to fit one line without
@@ -49,7 +54,8 @@ export const projects: Project[] = [
     stack: ["PyTorch", "EfficientNet-B0", "FastAPI"],
     github: "https://github.com/lowie03/Chest-xray",
     demo: "https://frontend-bay-phi-56.vercel.app/",
-    image: { src: "/projects/chest-xray.png", alt: "Chest-Xray" },
+    image: { src: "/projects/chest-xray.png", alt: "Chest-Xray — empty state" },
+    image2: { src: "/projects/chest-xray2.png", alt: "Chest-Xray — completed result" },
     panelColor: "navy",
     tagline: "Chest X-ray screening tuned for clinical safety.",
   },
