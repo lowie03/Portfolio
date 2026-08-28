@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import Image from "next/image";
 import type { Project } from "@/data/projects";
 import BrowserFrame from "@/components/BrowserFrame";
@@ -13,8 +13,6 @@ import Reveal from "@/components/Reveal";
 // result), and cycling back to an empty form would undo it.
 const HOLD_MS = 1200;
 const FADE_MS = 600;
-// Total upward drift across the panel's dwell (the 40-60px asked for).
-const PARALLAX_PX = 50;
 // Max hover tilt, in degrees — "a few degrees at most".
 const TILT_DEG = 4;
 
@@ -37,30 +35,15 @@ function ImagePlaceholder({ title }: { title: string }) {
 
 /**
  * The one client leaf for a panel's screenshot: entrance reveal (reusing the
- * site's existing fade-up-scale pattern via <Reveal scale>), scroll
- * parallax, hover tilt, and an optional two-image crossfade.
+ * site's existing fade-up-scale pattern via <Reveal scale>), hover tilt, and
+ * an optional two-image crossfade.
  *
- * Both the parallax translateY and the hover tilt's rotateX/rotateY/
- * perspective are applied to ONE single motion.div — the innermost element,
- * wrapping BrowserFrame directly, with nothing transformed between it and
- * the panel's own sticky <section>. They were previously split across two
- * nested motion.divs; a 3D transform (rotateX/rotateY/perspective) on an
- * intermediate wrapper inside an `overflow-hidden` + `clip-path` sticky
- * ancestor risks GPU-layer promotion escaping that ancestor's clipping in
- * some browsers. This consolidation removes that risk, though it turned out
- * NOT to be the cause of a since-fixed tab-row bug that looked similar —
- * that one was a paint-order race between sticky lock state and DOM order,
- * unrelated to transforms (see the comment on PanelStack). Framer Motion
- * combines multiple style keys (y, rotateX, rotateY, transformPerspective)
- * into a single CSS `transform` on one element, so nothing is lost by
- * merging them — it's strictly fewer transformed layers either way.
- *
- * Scroll parallax uses Framer Motion's scroll-progress + transform, which is
- * RAF-batched and applies only `transform: translateY(...)` — never `top`
- * or `margin`, so it never triggers layout. The scroll-progress measurement
- * itself lives on a plain, untransformed wrapper (`trackRef`) specifically
- * so the transform this component applies doesn't feed back into the
- * measurement it's derived from.
+ * No scroll parallax here (there used to be one, driven by Framer Motion's
+ * useScroll — it's gone now). The showcase's own sticky-stacking scroll
+ * motion is the section's centerpiece; a second, independent scroll-linked
+ * transform on the frame inside it was a competing motion, not a
+ * complementary one, and dropping it isn't a compromise — one clear motion
+ * reads better than two overlapping ones.
  */
 export default function ShowcaseFrame({
   project,
@@ -71,17 +54,6 @@ export default function ShowcaseFrame({
   chromeClassName?: string;
   sizes: string;
 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: trackRef,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [PARALLAX_PX / 2, -PARALLAX_PX / 2],
-  );
-
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
@@ -104,53 +76,51 @@ export default function ShowcaseFrame({
 
   return (
     <Reveal scale>
-      <div ref={trackRef}>
-        <motion.div
-          style={{ y, rotateX, rotateY, transformPerspective: 800 }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={resetTilt}
-          onViewportEnter={() => {
-            if (triggeredRef.current || !project.image2) return;
-            triggeredRef.current = true;
-            setTimeout(() => setShowSecond(true), HOLD_MS);
-          }}
-          viewport={{ once: true, margin: "-80px" }}
-          className="transition-shadow duration-300 hover:shadow-2xl"
-        >
-          <BrowserFrame demo={project.demo} chromeClassName={chromeClassName}>
-            {project.image ? (
-              <div className="relative h-full w-full">
+      <motion.div
+        style={{ rotateX, rotateY, transformPerspective: 800 }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={resetTilt}
+        onViewportEnter={() => {
+          if (triggeredRef.current || !project.image2) return;
+          triggeredRef.current = true;
+          setTimeout(() => setShowSecond(true), HOLD_MS);
+        }}
+        viewport={{ once: true, margin: "-80px" }}
+        className="transition-shadow duration-300 hover:shadow-2xl"
+      >
+        <BrowserFrame demo={project.demo} chromeClassName={chromeClassName}>
+          {project.image ? (
+            <div className="relative h-full w-full">
+              <Image
+                src={project.image.src}
+                alt={project.image.alt}
+                fill
+                sizes={sizes}
+                className="object-cover transition-opacity ease-out"
+                style={{
+                  opacity: project.image2 && showSecond ? 0 : 1,
+                  transitionDuration: `${FADE_MS}ms`,
+                }}
+              />
+              {project.image2 && (
                 <Image
-                  src={project.image.src}
-                  alt={project.image.alt}
+                  src={project.image2.src}
+                  alt={project.image2.alt}
                   fill
                   sizes={sizes}
                   className="object-cover transition-opacity ease-out"
                   style={{
-                    opacity: project.image2 && showSecond ? 0 : 1,
+                    opacity: showSecond ? 1 : 0,
                     transitionDuration: `${FADE_MS}ms`,
                   }}
                 />
-                {project.image2 && (
-                  <Image
-                    src={project.image2.src}
-                    alt={project.image2.alt}
-                    fill
-                    sizes={sizes}
-                    className="object-cover transition-opacity ease-out"
-                    style={{
-                      opacity: showSecond ? 1 : 0,
-                      transitionDuration: `${FADE_MS}ms`,
-                    }}
-                  />
-                )}
-              </div>
-            ) : (
-              <ImagePlaceholder title={project.title} />
-            )}
-          </BrowserFrame>
-        </motion.div>
-      </div>
+              )}
+            </div>
+          ) : (
+            <ImagePlaceholder title={project.title} />
+          )}
+        </BrowserFrame>
+      </motion.div>
     </Reveal>
   );
 }
